@@ -1,5 +1,5 @@
-import axios from "./axios";
+import client from "./axios";
 
-const csrf = () => axios.get("/auth/csrf")
+const csrf = () => client.get("auth/csrf")
 
 export default csrf

@@ -18,7 +18,7 @@ export type LoginErrorResponse = {
 export const useAuth = () => {
 
     const getAuthenticatedUser = () => {
-        return client.get("/auth/check")
+        return client.get("auth/check")
     }
 
     const login = async (email : string, password : string, remember : boolean, setErrors : SetErrorsType) => {
@@ -26,7 +26,7 @@ export const useAuth = () => {
 
         await csrf()
 
-        return client.post("/auth/login", { email, password, remember })
+        return client.post("auth/login", { email, password, remember })
         .then(() => {})
         .catch((error : AxiosError<LoginErrorResponse>) => {
             if (error.response?.status !== 422) {
@@ -43,7 +43,7 @@ export const useAuth = () => {
 
     const logout = async () => {
         await csrf()
-        return client.post("/auth/logout")
+        return client.post("auth/logout")
     }
 
 

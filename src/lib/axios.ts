@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const client = Axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
   },
