@@ -1,3 +1,4 @@
+import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -16,6 +17,7 @@ export function Login() {
     const navigate = useNavigate()
 
     const [ error, setError ] = useState<string | null>(null)
+    const [ pending, setPending ] = useState<boolean>(false)
 
     const formSchema = z.object({
         email: z.string().email({ message: "Invalid email" }),
@@ -31,10 +33,12 @@ export function Login() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        setPending(true)
         login(values.email, values.password, setError)
         .then(() => {
             navigate("/app")
         })
+        .finally(() => setPending(false))
     }
     
 
@@ -78,7 +82,7 @@ export function Login() {
                                     </FormItem>
                                 )}
                             />
-                            <Button variant="positive" type="submit">Login</Button>
+                            <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Login" }</Button>
                         </form>
                     </Form>
                 </CardContent>
