@@ -3,6 +3,7 @@ import { Login } from "./pages/guest/Login";
 import { GuestLayout } from "./components/layouts/GuestLayout";
 import { AppLayout } from "./components/layouts/AppLayout";
 import { Index } from "./pages/Index";
+import { Dashboard } from "./pages/app/Dashboard";
 
 export function Router() {
     return (
@@ -12,7 +13,7 @@ export function Router() {
                     <Route path='/' element={<Index />} />
 
                     <Route path="app" element={<AppLayout />}>
-                        <Route index element={<Index />} />
+                        <Route index element={<Dashboard />} />
                     </Route>
 
                     <Route element={<GuestLayout />}>
