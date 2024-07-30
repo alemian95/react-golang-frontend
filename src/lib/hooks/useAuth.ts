@@ -21,12 +21,12 @@ export const useAuth = () => {
         return client.get("auth/check")
     }
 
-    const login = async (email : string, password : string, remember : boolean, setError : SetErrorsType) => {
+    const login = async (email : string, password : string, setError : SetErrorsType) => {
         setError(null)
 
         await csrf()
 
-        return client.post("auth/login", { email, password, remember })
+        return client.post("auth/login", { email, password })
         .then(() => {})
         .catch((error : AxiosError<AuthErrorResponse>) => {
             if (error.response?.status == 422 && error.response.data.error) {
