@@ -4,15 +4,15 @@ import { Dispatch, SetStateAction } from "react"
 import client from "../axios"
 import csrf from "../csrf"
 
-export type LoginErrorsType = {
-    email? : string,
-    password? : string,
-}
+// export type LoginErrorsType = {
+//     email? : string,
+//     password? : string,
+// }
 
-export type SetErrorsType = Dispatch<SetStateAction<LoginErrorsType>>
+export type SetErrorsType = Dispatch<SetStateAction<string | null>>
 
-export type LoginErrorResponse = {
-    errors? : LoginErrorsType
+export type AuthErrorResponse = {
+    error? : string
 }
 
 export const useAuth = () => {
@@ -21,23 +21,18 @@ export const useAuth = () => {
         return client.get("auth/check")
     }
 
-    const login = async (email : string, password : string, remember : boolean, setErrors : SetErrorsType) => {
-        setErrors({})
+    const login = async (email : string, password : string, remember : boolean, setError : SetErrorsType) => {
+        setError(null)
 
         await csrf()
 
         return client.post("auth/login", { email, password, remember })
         .then(() => {})
-        .catch((error : AxiosError<LoginErrorResponse>) => {
-            if (error.response?.status !== 422) {
-                throw error
+        .catch((error : AxiosError<AuthErrorResponse>) => {
+            if (error.response?.status == 422 && error.response.data.error) {
+                setError(error.response.data.error)
             }
-            else if (error.response.data.errors) {
-                setErrors(error.response.data.errors)
-            }
-            else {
-                throw new Error("Server Error")
-            }
+            throw error
         })
     }
 

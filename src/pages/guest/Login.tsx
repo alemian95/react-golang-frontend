@@ -1,14 +1,17 @@
-import { LoginErrorsType, useAuth } from "@/lib/hooks/useAuth"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { useAuth } from "@/lib/hooks/useAuth"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export function Login() {
 
-    const navigate = useNavigate()
-
     const { login } = useAuth()
 
-    const [ errors, setErrors ] = useState<LoginErrorsType>({})
+    const navigate = useNavigate()
+
+    const [ error, setError ] = useState<string | null>(null)
 
     const [ form, setForm ] = useState({
         email : "",
@@ -18,24 +21,28 @@ export function Login() {
 
     const onSubmit = async (event : any) => {
         event.preventDefault()
-        console.log(form)
-        login(form.email, form.password, form.remember, setErrors)
-        .then(() => navigate("/app"))
+        login(form.email, form.password, form.remember, setError)
+        .then(() => {
+            navigate("/app")
+        })
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <>
+            <Card className="w-full max-w-screen-sm mx-auto my-12">
+                <CardHeader>
+                    <CardTitle>LogIn</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={ onSubmit }>
+                        <Input type="email" name="email" id="email" onInput={ event => setForm({ ...form, email : event.currentTarget.value }) } />
+                        <Input type="password" name="password" id="password" onInput={ event => setForm({ ...form, password : event.currentTarget.value }) } />
+                        <Button variant="positive">Login</Button>
+                    </form>
+                </CardContent>
+            </Card>
 
-            <pre>{JSON.stringify(form, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-
-            <form onSubmit={ onSubmit }>
-                <input type="email" name="email" id="email" onInput={ event => setForm({ ...form, email : event.currentTarget.value }) } />
-                <input type="password" name="password" id="password" onInput={ event => setForm({ ...form, password : event.currentTarget.value }) } />
-                <input type="checkbox" name="remember" id="remember" onInput={ event => setForm({ ...form, remember : event.currentTarget.checked }) } />
-                <button>Login</button>
-            </form>
-        </div>
+            <pre>{JSON.stringify(error, null, 2)}</pre>
+        </>
     )
 }
