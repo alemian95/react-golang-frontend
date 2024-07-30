@@ -31,7 +31,6 @@ export function Login() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         login(values.email, values.password, setError)
         .then(() => {
             navigate("/app")
