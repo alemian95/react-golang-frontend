@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-export type LayoutProps = {};
-
-export function GuestLayout({}: LayoutProps) {
+export function GuestLayout() {
   return (
     <>
         <div>

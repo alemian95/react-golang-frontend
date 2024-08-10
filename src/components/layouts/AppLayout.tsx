@@ -4,9 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 
-export type LayoutProps = {}
-
-export function AppLayout({}: LayoutProps) {
+export function AppLayout() {
 
     const navigate = useNavigate()
 
