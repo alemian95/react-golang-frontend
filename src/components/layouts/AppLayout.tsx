@@ -2,7 +2,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card } from "../ui/card";
 
 export type LayoutProps = {}
 
