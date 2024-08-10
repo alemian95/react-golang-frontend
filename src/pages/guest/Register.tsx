@@ -3,16 +3,13 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useAuth } from "@/lib/hooks/useAuth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
 
-export function Login() {
-
-    const { login } = useAuth()
+export function Register() {
 
     const navigate = useNavigate()
 
@@ -20,32 +17,37 @@ export function Login() {
     const [ pending, setPending ] = useState<boolean>(false)
 
     const formSchema = z.object({
+        name: z.string(),
         email: z.string().email({ message: "Invalid email" }),
-        password: z.string()
+        password: z.string(),
+        password_confirm: z.string(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            name: "",
             email: "",
-            password: ""
+            password: "",
+            password_confirm: ""
         },
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        setPending(true)
-        login(values.email, values.password, setError)
-        .then(() => {
-            navigate("/app")
-        })
-        .finally(() => setPending(false))
+        console.log(values)
+        // setPending(true)
+        // login(values.email, values.password, setError)
+        // .then(() => {
+        //     navigate("/app")
+        // })
+        // .finally(() => setPending(false))
     }
     
 
     return (
         <>
             <CardHeader>
-                <CardTitle>Login</CardTitle>
+                <CardTitle>Register</CardTitle>
             </CardHeader>
             <CardContent>
                 {
@@ -55,6 +57,19 @@ export function Login() {
                 }
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Name" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"
@@ -81,12 +96,25 @@ export function Login() {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Login" }</Button>
+                        <FormField
+                            control={form.control}
+                            name="password_confirm"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Confirm Password</FormLabel>
+                                    <FormControl>
+                                        <Input type="password_confirm" placeholder="Confirm Password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Register" }</Button>
                     </form>
                 </Form>
             </CardContent>
             <CardFooter className="flex gap-4 items-center justify-between">
-                <Link to="/register" className="text-sm text-slate-500">Don't have an account?</Link>
+                <Link to="/login" className="text-sm text-slate-500">Already have an account?</Link>
             </CardFooter>
         </>
     )

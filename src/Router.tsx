@@ -4,6 +4,7 @@ import { GuestLayout } from "./components/layouts/GuestLayout";
 import { AppLayout } from "./components/layouts/AppLayout";
 import { Index } from "./pages/Index";
 import { Dashboard } from "./pages/app/Dashboard";
+import { Register } from "./pages/guest/Register";
 
 export function Router() {
     return (
@@ -18,6 +19,7 @@ export function Router() {
 
                     <Route element={<GuestLayout />}>
                         <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
                     </Route>
                 </Routes>
 
