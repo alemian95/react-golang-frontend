@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useAuth } from "@/lib/hooks/useAuth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -10,6 +11,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
 
 export function Register() {
+
+    const { register } = useAuth()
 
     const navigate = useNavigate()
 
@@ -35,12 +38,12 @@ export function Register() {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
-        // setPending(true)
-        // login(values.email, values.password, setError)
-        // .then(() => {
-        //     navigate("/app")
-        // })
-        // .finally(() => setPending(false))
+        setPending(true)
+        register(values.name, values.email, values.password, values.password_confirm, setError)
+        .then(() => {
+            navigate("/login")
+        })
+        .finally(() => setPending(false))
     }
     
 
@@ -103,7 +106,7 @@ export function Register() {
                                 <FormItem>
                                     <FormLabel>Confirm Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password_confirm" placeholder="Confirm Password" {...field} />
+                                        <Input type="password" placeholder="Confirm Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

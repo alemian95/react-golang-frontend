@@ -36,6 +36,21 @@ export const useAuth = () => {
         })
     }
 
+    const register = async (name : string, email : string, password : string, password_confirm: string, setError : SetErrorsType) => {
+        setError(null)
+
+        await csrf()
+
+        return client.post("auth/register", { name, email, password, password_confirm})
+        .then(() => {})
+        .catch((error : AxiosError<AuthErrorResponse>) => {
+            if (error.response?.data.error) {
+                setError(error.response.data.error)
+            }
+            throw error
+        })
+    }
+
     const logout = async () => {
         await csrf()
         return client.post("auth/logout")
@@ -45,6 +60,7 @@ export const useAuth = () => {
     return {
         getAuthenticatedUser,
         login,
-        logout
+        logout,
+        register
     }
 }
