@@ -44,7 +44,7 @@ export function ForgotPassword() {
     return (
         <>
             <CardHeader>
-                <CardTitle>Register</CardTitle>
+                <CardTitle>Forgot Password</CardTitle>
             </CardHeader>
             <CardContent>
                 {
@@ -67,7 +67,7 @@ export function ForgotPassword() {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Register" }</Button>
+                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Request reset link" }</Button>
                     </form>
                 </Form>
             </CardContent>

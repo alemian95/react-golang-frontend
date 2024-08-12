@@ -61,7 +61,7 @@ export function ResetPassword() {
     return (
         <>
             <CardHeader>
-                <CardTitle>Register</CardTitle>
+                <CardTitle>Reset Password</CardTitle>
             </CardHeader>
             <CardContent>
                 {
@@ -69,7 +69,6 @@ export function ResetPassword() {
                     &&
                     <p className="text-red-600">{error}</p>
                 }
-                <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
                         <FormField
@@ -111,12 +110,11 @@ export function ResetPassword() {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Register" }</Button>
+                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Confirm Reset" }</Button>
                     </form>
                 </Form>
             </CardContent>
             <CardFooter className="flex gap-4 items-center justify-between">
-                <Link to="/login" className="text-sm text-slate-500">Already have an account?</Link>
             </CardFooter>
         </>
     )
