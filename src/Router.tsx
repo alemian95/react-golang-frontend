@@ -5,6 +5,8 @@ import { AppLayout } from "./components/layouts/AppLayout";
 import { Index } from "./pages/Index";
 import { Dashboard } from "./pages/app/Dashboard";
 import { Register } from "./pages/guest/Register";
+import { ForgotPassword } from "./pages/guest/ForgotPassword";
+import { ResetPassword } from "./pages/guest/ResetPassword";
 
 export function Router() {
     return (
@@ -20,6 +22,8 @@ export function Router() {
                     <Route element={<GuestLayout />}>
                         <Route path='/login' element={<Login />} />
                         <Route path='/register' element={<Register />} />
+                        <Route path='/forgot-password' element={<ForgotPassword />} />
+                        <Route path="/reset-password/:token" element={<ResetPassword />} />
                     </Route>
                 </Routes>
 

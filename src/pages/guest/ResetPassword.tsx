@@ -3,16 +3,19 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import client from "@/lib/axios"
 import { useAuth } from "@/lib/hooks/useAuth"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { z } from "zod"
 
-export function Login() {
+export function ResetPassword() {
 
-    const { login } = useAuth()
+    const { token } = useParams()
+
+    const { resetPassword } = useAuth()
 
     const navigate = useNavigate()
 
@@ -20,32 +23,45 @@ export function Login() {
     const [ pending, setPending ] = useState<boolean>(false)
 
     const formSchema = z.object({
-        email: z.string().email({ message: "Invalid email" }),
-        password: z.string()
+        token: z.string(),
+        email: z.string(),
+        password: z.string(),
+        password_confirm: z.string(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            token: token,
             email: "",
-            password: ""
+            password: "",
+            password_confirm: ""
         },
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values)
         setPending(true)
-        login(values.email, values.password, setError)
+        resetPassword(values.email, values.password, values.password_confirm, values.token, setError)
         .then(() => {
-            navigate("/app")
+            navigate("/login")
         })
         .finally(() => setPending(false))
     }
+
+    useEffect(() => {
+        client.get(`auth/reset-password/${token}`)
+        .then((response) => {
+            form.setValue("email", response.data.email)
+    
+        })
+    }, [])
     
 
     return (
         <>
             <CardHeader>
-                <CardTitle>Login</CardTitle>
+                <CardTitle>Register</CardTitle>
             </CardHeader>
             <CardContent>
                 {
@@ -53,6 +69,7 @@ export function Login() {
                     &&
                     <p className="text-red-600">{error}</p>
                 }
+                <pre>{JSON.stringify(form.getValues(), null, 2)}</pre>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
                         <FormField
@@ -62,7 +79,7 @@ export function Login() {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Email" {...field} />
+                                        <Input readOnly placeholder="Email" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -81,13 +98,25 @@ export function Login() {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Login" }</Button>
+                        <FormField
+                            control={form.control}
+                            name="password_confirm"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Confirm Password</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Confirm Password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Register" }</Button>
                     </form>
                 </Form>
             </CardContent>
             <CardFooter className="flex gap-4 items-center justify-between">
-                <Link to="/forgot-password" className="text-sm text-slate-500">Forgot your password?</Link>
-                <Link to="/register" className="text-sm text-slate-500">Don't have an account?</Link>
+                <Link to="/login" className="text-sm text-slate-500">Already have an account?</Link>
             </CardFooter>
         </>
     )

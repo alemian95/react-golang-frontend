@@ -10,9 +10,9 @@ import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
 
-export function Login() {
+export function ForgotPassword() {
 
-    const { login } = useAuth()
+    const { forgotPassword } = useAuth()
 
     const navigate = useNavigate()
 
@@ -21,22 +21,21 @@ export function Login() {
 
     const formSchema = z.object({
         email: z.string().email({ message: "Invalid email" }),
-        password: z.string()
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
-            password: ""
         },
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values)
         setPending(true)
-        login(values.email, values.password, setError)
+        forgotPassword(values.email, setError)
         .then(() => {
-            navigate("/app")
+            navigate("/login")
         })
         .finally(() => setPending(false))
     }
@@ -45,7 +44,7 @@ export function Login() {
     return (
         <>
             <CardHeader>
-                <CardTitle>Login</CardTitle>
+                <CardTitle>Register</CardTitle>
             </CardHeader>
             <CardContent>
                 {
@@ -68,26 +67,12 @@ export function Login() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input type="password" placeholder="Password" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Login" }</Button>
+                        <Button disabled={pending} variant="positive" type="submit">{ pending ? <Spinner /> : "Register" }</Button>
                     </form>
                 </Form>
             </CardContent>
             <CardFooter className="flex gap-4 items-center justify-between">
-                <Link to="/forgot-password" className="text-sm text-slate-500">Forgot your password?</Link>
-                <Link to="/register" className="text-sm text-slate-500">Don't have an account?</Link>
+                <Link to="/login" className="text-sm text-slate-500">Remember your password?</Link>
             </CardFooter>
         </>
     )

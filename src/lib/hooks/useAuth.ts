@@ -56,11 +56,43 @@ export const useAuth = () => {
         return client.post("auth/logout")
     }
 
+    const forgotPassword = async (email : string, setError : SetErrorsType) => {
+        setError(null)
+
+        await csrf()
+
+        return client.post("auth/forgot-password", { email })
+        .then(() => {})
+        .catch((error : AxiosError<AuthErrorResponse>) => {
+            if (error.response?.data.error) {
+                setError(error.response.data.error)
+            }
+            throw error
+        })
+    }
+
+    const resetPassword = async (email : string, password : string, password_confirm: string, token : string, setError : SetErrorsType) => {
+        setError(null)
+
+        await csrf()
+
+        return client.post("auth/reset-password", { email, token, password, password_confirm })
+        .then(() => {})
+        .catch((error : AxiosError<AuthErrorResponse>) => {
+            if (error.response?.data.error) {
+                setError(error.response.data.error)
+            }
+            throw error
+        })
+    }
+
 
     return {
         getAuthenticatedUser,
         login,
         logout,
-        register
+        register,
+        forgotPassword,
+        resetPassword
     }
 }
