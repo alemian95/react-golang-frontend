@@ -7,6 +7,8 @@ import { Dashboard } from "./pages/app/Dashboard";
 import { Register } from "./pages/guest/Register";
 import { ForgotPassword } from "./pages/guest/ForgotPassword";
 import { ResetPassword } from "./pages/guest/ResetPassword";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { AdminLayout } from "./components/layouts/AdminLayout";
 
 export function Router() {
     return (
@@ -17,6 +19,10 @@ export function Router() {
 
                     <Route path="app" element={<AppLayout />}>
                         <Route index element={<Dashboard />} />
+                    </Route>
+
+                    <Route path="admin" element={<AdminLayout />}>
+                        <Route index element={<AdminDashboard />} />
                     </Route>
 
                     <Route element={<GuestLayout />}>
