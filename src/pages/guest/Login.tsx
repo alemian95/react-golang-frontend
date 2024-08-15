@@ -1,3 +1,4 @@
+import { GuestLayout } from "@/components/layouts/GuestLayout"
 import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -43,10 +44,7 @@ export function Login() {
     
 
     return (
-        <>
-            <CardHeader>
-                <CardTitle>Login</CardTitle>
-            </CardHeader>
+        <GuestLayout title="Layout">
             <CardContent>
                 {
                     error
@@ -89,6 +87,6 @@ export function Login() {
                 <Link to="/forgot-password" className="text-sm text-slate-500">Forgot your password?</Link>
                 <Link to="/register" className="text-sm text-slate-500">Don't have an account?</Link>
             </CardFooter>
-        </>
+        </GuestLayout>
     )
 }

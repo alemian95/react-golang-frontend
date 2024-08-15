@@ -1,3 +1,4 @@
+import { GuestLayout } from "@/components/layouts/GuestLayout"
 import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,10 +43,7 @@ export function ForgotPassword() {
     
 
     return (
-        <>
-            <CardHeader>
-                <CardTitle>Forgot Password</CardTitle>
-            </CardHeader>
+        <GuestLayout title="Forgot Password">
             <CardContent>
                 {
                     error
@@ -74,6 +72,6 @@ export function ForgotPassword() {
             <CardFooter className="flex gap-4 items-center justify-between">
                 <Link to="/login" className="text-sm text-slate-500">Remember your password?</Link>
             </CardFooter>
-        </>
+        </GuestLayout>
     )
 }

@@ -1,26 +1,31 @@
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { CardTitle } from "../ui/card";
 import { HomeIcon, Settings,  Users } from "lucide-react";
 import { Input } from "../ui/input";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 
-export function AdminLayout() {
+export type AdminDashboardProps = {
+    title: string,
+    current?: string
+}
 
-    // const navigate = useNavigate()
+export function AdminLayout({ children, title, current } : PropsWithChildren<AdminDashboardProps>) {
 
-    // const { getAuthenticatedUser, logout } = useAuth()
+    const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     getAuthenticatedUser().catch(() => {
-    //         navigate("/login")
-    //     })
-    // })
+    const { getAuthenticatedUser, logout } = useAuth()
 
-    // const onLogout = () => {
-    //     logout().then(() => navigate("/login"))
-    // }
+    useEffect(() => {
+        getAuthenticatedUser().catch(() => {
+            navigate("/login")
+        })
+    })
+
+    const onLogout = () => {
+        logout().then(() => navigate("/login"))
+    }
 
     return (
         <>
@@ -65,9 +70,9 @@ export function AdminLayout() {
                     </header>
                     <main className="flex-1 overflow-auto w-full">
                         <div className="p-4">
-                            <CardTitle>Page Title</CardTitle>
+                            <CardTitle>{ title }</CardTitle>
                             <div className="my-8">
-                                <Outlet />
+                                { children }
                             </div>
                         </div>
                     </main>

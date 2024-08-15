@@ -1,3 +1,4 @@
+import { GuestLayout } from "@/components/layouts/GuestLayout"
 import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,7 +9,7 @@ import { useAuth } from "@/lib/hooks/useAuth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { z } from "zod"
 
 export function ResetPassword() {
@@ -59,10 +60,7 @@ export function ResetPassword() {
     
 
     return (
-        <>
-            <CardHeader>
-                <CardTitle>Reset Password</CardTitle>
-            </CardHeader>
+        <GuestLayout title="Reset Password">
             <CardContent>
                 {
                     error
@@ -116,6 +114,6 @@ export function ResetPassword() {
             </CardContent>
             <CardFooter className="flex gap-4 items-center justify-between">
             </CardFooter>
-        </>
+        </GuestLayout>
     )
 }

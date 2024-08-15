@@ -1,10 +1,14 @@
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 
-export function AppLayout() {
+export type AppLayoutProps = {
+    title: string
+}
+
+export function AppLayout({ children, title } : PropsWithChildren<AppLayoutProps>) {
 
     const navigate = useNavigate()
 
@@ -36,7 +40,10 @@ export function AppLayout() {
                 <main className="py-2 px-4 flex-1">
                     <div>
                         <Card className="w-full max-w-screen-xl mx-auto">
-                            <Outlet />
+                            <CardHeader>
+                                <CardTitle>{ title }</CardTitle>
+                            </CardHeader>
+                            { children }
                         </Card>
                     </div>
                 </main>

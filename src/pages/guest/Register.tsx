@@ -1,3 +1,4 @@
+import { GuestLayout } from "@/components/layouts/GuestLayout"
 import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -48,10 +49,7 @@ export function Register() {
     
 
     return (
-        <>
-            <CardHeader>
-                <CardTitle>Register</CardTitle>
-            </CardHeader>
+        <GuestLayout title="Register">
             <CardContent>
                 {
                     error
@@ -119,6 +117,6 @@ export function Register() {
             <CardFooter className="flex gap-4 items-center justify-between">
                 <Link to="/login" className="text-sm text-slate-500">Already have an account?</Link>
             </CardFooter>
-        </>
+        </GuestLayout>
     )
 }
