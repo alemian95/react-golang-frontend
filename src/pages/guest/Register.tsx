@@ -1,7 +1,7 @@
 import { GuestLayout } from "@/components/layouts/GuestLayout"
 import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
-import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent, CardFooter } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/lib/hooks/useAuth"

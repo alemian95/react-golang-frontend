@@ -1,6 +1,6 @@
 import { useAuth } from "@/lib/hooks/useAuth";
 import { PropsWithChildren, useEffect } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CardTitle } from "../ui/card";
 import { HomeIcon, Settings,  Users } from "lucide-react";
 import { Input } from "../ui/input";
